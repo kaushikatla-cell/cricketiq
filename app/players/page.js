@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import AppShell from "@/components/AppShell";
 import { Button, Card, EmptyState } from "@/components/ui";
@@ -16,7 +17,7 @@ const initialForm = {
 };
 
 export default function PlayersPage() {
-  const { players, addPlayer, playerAnalytics, isReady } = useCricketIQData();
+  const { players, addPlayer, playerAnalytics, isReady, storageError, clearStorageError } = useCricketIQData();
   const [form, setForm] = useState(initialForm);
 
   if (!isReady) return null;
@@ -29,7 +30,12 @@ export default function PlayersPage() {
   };
 
   return (
-    <AppShell title="Player Management" subtitle="Add and manage player profiles for grassroots scouting intelligence.">
+    <AppShell
+      title="Player Management"
+      subtitle="Add and manage player profiles for grassroots scouting intelligence."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
+    >
       <div className="grid gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-2">
           <h2 className="text-lg font-semibold">Add Player</h2>
@@ -67,9 +73,14 @@ export default function PlayersPage() {
                       const recommendation = row ? getRoleRecommendation(row) : { role: "Needs Data", explanation: "Add matches for analytics." };
                       return (
                         <>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="font-semibold">{player.name}</p>
-                      <p className="text-sm text-slate-500">Age {player.age || "-"}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-slate-500">Age {player.age || "-"}</p>
+                        <Link className="text-sm font-semibold text-blue-700 hover:underline" href={`/players/${player.id}`}>
+                          Dashboard →
+                        </Link>
+                      </div>
                     </div>
                     <p className="mt-1 text-sm text-slate-600">
                       {player.dominantSkill} | {player.battingHand}-hand | {player.bowlingStyle}

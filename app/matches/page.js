@@ -19,7 +19,7 @@ const createBlankStat = (playerId) => ({
 });
 
 export default function MatchesPage() {
-  const { players, matches, addMatch, isReady } = useCricketIQData();
+  const { players, matches, seasons, addMatch, isReady, storageError, clearStorageError } = useCricketIQData();
   const [meta, setMeta] = useState({
     date: "",
     teamA: "",
@@ -27,6 +27,7 @@ export default function MatchesPage() {
     winner: "",
     venue: "",
     matchType: "T20",
+    seasonId: "",
   });
   const [stats, setStats] = useState([]);
 
@@ -48,14 +49,20 @@ export default function MatchesPage() {
     const normalizedStats = players.map((player) => stats.find((row) => row.playerId === player.id) || createBlankStat(player.id));
     addMatch({
       ...meta,
+      seasonId: meta.seasonId || undefined,
       stats: normalizedStats,
     });
-    setMeta({ date: "", teamA: "", teamB: "", winner: "", venue: "", matchType: "T20" });
+    setMeta({ date: "", teamA: "", teamB: "", winner: "", venue: "", matchType: "T20", seasonId: "" });
     setStats([]);
   };
 
   return (
-    <AppShell title="Match Entry" subtitle="Capture detailed batting, bowling, and fielding match logs.">
+    <AppShell
+      title="Match Entry"
+      subtitle="Capture detailed batting, bowling, and fielding match logs."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
+    >
       {!players.length ? (
         <EmptyState title="Players needed first" description="Add players before entering a match so individual stats can be mapped." />
       ) : (
@@ -71,6 +78,14 @@ export default function MatchesPage() {
                 <option value="T10">T10</option>
                 <option value="T20">T20</option>
                 <option value="Custom">Custom</option>
+              </select>
+              <select className="rounded-xl border border-slate-200 p-2" value={meta.seasonId} onChange={(e) => setMeta({ ...meta, seasonId: e.target.value })}>
+                <option value="">Season (optional)</option>
+                {seasons.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name}
+                  </option>
+                ))}
               </select>
             </div>
           </Card>
@@ -107,11 +122,15 @@ export default function MatchesPage() {
           <Card>
             <h3 className="font-semibold">Recent Matches</h3>
             <div className="mt-2 space-y-2">
-              {matches.slice(-5).reverse().map((match) => (
-                <p key={match.id} className="text-sm text-slate-600">
-                  {match.date} - {match.teamA} vs {match.teamB} ({match.matchType}) at {match.venue}
-                </p>
-              ))}
+              {matches.slice(-5).reverse().map((match) => {
+                const sn = seasons.find((s) => s.id === match.seasonId)?.name;
+                return (
+                  <p key={match.id} className="text-sm text-slate-600">
+                    {match.date} - {match.teamA} vs {match.teamB} ({match.matchType}) at {match.venue}
+                    {sn ? ` · ${sn}` : ""}
+                  </p>
+                );
+              })}
             </div>
           </Card>
         </form>

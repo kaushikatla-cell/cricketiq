@@ -7,7 +7,7 @@
 
 **Moneyball for grassroots cricket.**
 
-CricketIQ is a **tier-1 extracurricular–grade** full-stack product: a serious analytics and strategy platform for **amateur and student-run cricket**, not a toy school demo. It turns informal matches into **structured stats**, **rankings**, **role intelligence**, **Best XI** composition, **match win probability**, and an **admissions-ready impact narrative**.
+CricketIQ is a **tier-1 extracurricular–grade** full-stack product: a serious analytics and strategy platform for **amateur and student-run cricket**, not a toy school demo. It turns informal matches into **structured stats**, **rankings**, **role intelligence**, **Best XI** composition, **match win probability**, **season standings**, and an **admissions-ready impact narrative**.
 
 **Author:** [Kaushik Atla](https://github.com/kaushikatla-cell)
 
@@ -25,13 +25,25 @@ Most grassroots cricketers never see **objective performance feedback**. Selecti
 
 | Area | Capability |
 |------|----------------|
-| **Operations** | Add players, log matches, per-player batting / bowling / fielding lines |
+| **Operations** | Add players, log matches (optional **season** tag), per-player batting / bowling / fielding lines |
 | **Intelligence** | CricketIQ score (0–100), consistency, clutch-style signals, role recommendations with explanations |
+| **Player detail** | Per-player dashboard at `/players/[id]` with innings log and **rolling batting average** chart |
+| **Seasons** | Create seasons, assign matches, **standings** (wins / played), **weekly MVP** (contribution index) |
 | **Competition** | Sortable rankings, badges (Elite, Rising, Specialist, Needs Data), Best XI + batting order |
 | **Strategy** | Two-side match predictor from composite team strength |
-| **Storytelling** | Impact report page + CSV exports (players, matches, rankings) |
-| **Product** | Modern dashboard UI (Tailwind), Recharts visualizations, strong empty states |
+| **Storytelling** | Impact report + **print / Save as PDF** (`/impact`, `/impact/print`), CSV exports |
+| **Product** | Modern dashboard UI (Tailwind), Recharts, Open Graph image, resilient `localStorage` writes |
 | **MVP constraints** | **No login**, **no paid APIs**, **no database**—`localStorage` first, Vercel-ready |
+
+## Documentation pack (for apps / sponsors / mentors)
+
+| Doc | Purpose |
+|-----|---------|
+| [`docs/FOUNDER_NOTE.md`](./docs/FOUNDER_NOTE.md) | ~220-word founder narrative (Common App / portfolio) |
+| [`docs/PILOT_PLAYBOOK.md`](./docs/PILOT_PLAYBOOK.md) | 4-week pilot checklist + metrics + ethics |
+| [`docs/SCREENSHOTS.md`](./docs/SCREENSHOTS.md) | How to capture README-quality screenshots |
+| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | System map + data-flow diagram |
+| [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md) | **GitHub → Vercel** auto-deploy + CI |
 
 ## Technical stack
 
@@ -39,23 +51,23 @@ Most grassroots cricketers never see **objective performance feedback**. Selecti
 - **JavaScript only** (no TypeScript)
 - **Tailwind CSS**
 - **Recharts**
-- **localStorage** persistence (`lib/storage.js`)
-- **CI** on GitHub Actions (`lint` + `build`)
+- **Vitest** unit tests (`tests/`)
+- **localStorage** persistence (`lib/storage.js`) with quota-aware error messaging
+- **CI** on GitHub Actions (`lint` + `test` + `build`)
 
 ## Project structure
 
 ```
-app/              # Routes: dashboard, players, matches, rankings, best-xi, predictor, impact, about
-components/       # AppShell, UI primitives, ChartsPanel
+app/              # Routes + error boundaries + opengraph-image
+components/       # AppShell, UI, ChartsPanel, ImpactReportBody
 lib/
-  analytics.js    # Scoring, rankings, roles, Best XI, predictor
-  storage.js      # localStorage read/write
-  sampleData.js   # Seed data for instant demos
+  analytics.js    # Scoring, season helpers, standings, weekly MVP, predictor, …
+  storage.js      # localStorage (players, matches, seasons)
+  sampleData.js   # Seed data
   csv.js          # CSV export
   useCricketIQ.js # Client data hook
-docs/
-  ARCHITECTURE.md # Data flow and module map
-  DEPLOYMENT.md   # Vercel + CI notes
+tests/            # Vitest (analytics core)
+docs/             # Founder note, pilot, screenshots, architecture, deploy
 ```
 
 ## Scoring methodology (summary)
@@ -82,24 +94,28 @@ Open [http://localhost:3000](http://localhost:3000). Use **Load sample data** on
 
 ## Quality bar
 
-- `npm run lint` — ESLint (Next config)
+- `npm run lint` — ESLint
+- `npm run test` — Vitest (`lib/analytics.js`)
 - `npm run build` — production build
 - Same checks run on **every push/PR to `main`** via GitHub Actions
 
+## Screenshots (optional but recommended)
+
+Follow [`docs/SCREENSHOTS.md`](./docs/SCREENSHOTS.md) and drop PNGs into `docs/screenshots/`, then add an image gallery to this README for maximum “shipped product” signal on GitHub.
+
 ## Deploy your fork
 
-Connect the repo to [Vercel](https://vercel.com/new); no env vars required for the MVP. Details: [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md).
+Connect the repo to [Vercel](https://vercel.com/new) for continuous deployment from `main`. Step-by-step: [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md).
 
 ## Community impact (how to talk about it)
 
 CricketIQ supports **fairer selection**, **clearer development goals**, and **stronger group cohesion** when a student club treats cricket like a real program—not just pickup games. It combines **computer science**, **sports analytics**, and **community leadership** in one shipped product.
 
-## Roadmap (honest next steps)
+## Roadmap (next engineering passes)
 
-- Optional cloud sync (multi-device, club accounts)
-- Season / tournament views and automated recap PDFs
-- Deeper trend models (form curves, phase-of-innings priors)
-- Optional auth for school/club workspaces
+- Cloud sync + optional auth for clubs
+- Ball-by-ball entry and richer phase models
+- Native PDF export pipeline (server-side) if a school requires archival PDFs
 
 ## License
 

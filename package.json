@@ -1,6 +1,6 @@
 {
   "name": "cricketiq",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Moneyball for grassroots cricket — full-stack analytics for amateur cricket (Next.js, localStorage, Recharts).",
   "keywords": [
@@ -29,7 +29,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "next": "16.2.4",
@@ -41,6 +43,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "vitest": "^3.2.4"
   }
 }

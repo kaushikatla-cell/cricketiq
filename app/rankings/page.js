@@ -16,7 +16,7 @@ const metricOptions = [
 ];
 
 export default function RankingsPage() {
-  const { playerAnalytics, isReady } = useCricketIQData();
+  const { playerAnalytics, isReady, storageError, clearStorageError } = useCricketIQData();
   const [metric, setMetric] = useState("overallScore");
   const selectedMeta = metricOptions.find((opt) => opt.value === metric);
 
@@ -44,6 +44,8 @@ export default function RankingsPage() {
     <AppShell
       title="Rankings"
       subtitle="Sortable player intelligence boards with role recommendations and badges."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
       actions={<Button onClick={exportRankings}>Export Rankings CSV</Button>}
     >
       {!rankings.length ? (

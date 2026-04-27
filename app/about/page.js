@@ -3,10 +3,42 @@
 import AppShell from "@/components/AppShell";
 import { Card } from "@/components/ui";
 
+const REPO = "https://github.com/kaushikatla-cell/cricketiq";
+
 export default function AboutPage() {
   return (
     <AppShell title="About CricketIQ" subtitle="Founder-level student product built for grassroots cricket intelligence.">
       <div className="grid gap-4">
+        <Card>
+          <h3 className="text-lg font-semibold">Repository & artifacts</h3>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+            <li>
+              <a className="font-medium text-blue-700 hover:underline" href={REPO}>
+                GitHub repository
+              </a>
+            </li>
+            <li>
+              <a className="font-medium text-blue-700 hover:underline" href={`${REPO}/blob/main/docs/FOUNDER_NOTE.md`}>
+                Founder note (applications / portfolio)
+              </a>
+            </li>
+            <li>
+              <a className="font-medium text-blue-700 hover:underline" href={`${REPO}/blob/main/docs/PILOT_PLAYBOOK.md`}>
+                4-week pilot playbook
+              </a>
+            </li>
+            <li>
+              <a className="font-medium text-blue-700 hover:underline" href={`${REPO}/blob/main/docs/ARCHITECTURE.md`}>
+                Architecture
+              </a>
+            </li>
+            <li>
+              <a className="font-medium text-blue-700 hover:underline" href={`${REPO}/blob/main/docs/SCREENSHOTS.md`}>
+                Screenshot guide for README
+              </a>
+            </li>
+          </ul>
+        </Card>
         <Card>
           <h3 className="text-lg font-semibold">Mission</h3>
           <p className="mt-2 text-sm text-slate-600">

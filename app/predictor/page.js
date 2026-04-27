@@ -7,7 +7,7 @@ import { predictMatch } from "@/lib/analytics";
 import { useCricketIQData } from "@/lib/useCricketIQ";
 
 export default function PredictorPage() {
-  const { playerAnalytics, isReady } = useCricketIQData();
+  const { playerAnalytics, isReady, storageError, clearStorageError } = useCricketIQData();
   const [teamA, setTeamA] = useState([]);
   const [teamB, setTeamB] = useState([]);
 
@@ -21,7 +21,12 @@ export default function PredictorPage() {
   if (!isReady) return null;
   if (!playerAnalytics.length) {
     return (
-      <AppShell title="Match Predictor" subtitle="Probability engine based on composite team strengths.">
+      <AppShell
+        title="Match Predictor"
+        subtitle="Probability engine based on composite team strengths."
+        storageError={storageError}
+        onDismissStorageError={clearStorageError}
+      >
         <EmptyState title="No model input" description="Add players and match stats to activate predictions." />
       </AppShell>
     );
@@ -36,7 +41,12 @@ export default function PredictorPage() {
   };
 
   return (
-    <AppShell title="Match Predictor" subtitle="Probability engine based on composite team strengths.">
+    <AppShell
+      title="Match Predictor"
+      subtitle="Probability engine based on composite team strengths."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
+    >
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <h3 className="font-semibold">Team A Selection</h3>

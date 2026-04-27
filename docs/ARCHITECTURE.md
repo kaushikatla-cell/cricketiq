@@ -23,10 +23,10 @@ flowchart LR
 
 | Path | Responsibility |
 |------|------------------|
-| `app/` | Routes (dashboard, players, matches, rankings, best XI, predictor, impact, about) |
+| `app/` | Routes (dashboard, players + `[id]` detail, matches, **seasons**, rankings, best XI, predictor, impact + **print**) |
 | `components/` | Shared UI (`AppShell`, cards, charts) |
-| `lib/analytics.js` | Batting, bowling, fielding, consistency, rankings, roles, Best XI, match predictor |
-| `lib/storage.js` | Serialize players and matches to `localStorage` |
+| `lib/analytics.js` | Batting, bowling, fielding, consistency, rankings, roles, Best XI, match predictor, **season filters**, **standings**, **weekly MVP** |
+| `lib/storage.js` | Serialize players, matches, and **seasons** to `localStorage` (quota-safe writes) |
 | `lib/sampleData.js` | Seed dataset for instant demos |
 | `lib/csv.js` | CSV export helpers |
 | `lib/useCricketIQ.js` | Client hook wiring storage + derived analytics |

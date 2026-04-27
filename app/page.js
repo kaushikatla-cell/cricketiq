@@ -8,7 +8,8 @@ import { downloadCsv } from "@/lib/csv";
 import { useCricketIQData } from "@/lib/useCricketIQ";
 
 export default function Home() {
-  const { isReady, players, matches, totals, playerAnalytics, loadSample, resetData } = useCricketIQData();
+  const { isReady, players, matches, totals, playerAnalytics, loadSample, resetData, storageError, clearStorageError } =
+    useCricketIQData();
 
   if (!isReady) return null;
 
@@ -19,6 +20,8 @@ export default function Home() {
     <AppShell
       title="CricketIQ"
       subtitle="Moneyball for grassroots cricket."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
       actions={
         <>
           <Button onClick={loadSample}>Load Sample Data</Button>
@@ -44,6 +47,9 @@ export default function Home() {
           </Link>
           <Link className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-slate-200" href="/best-xi">
             Generate Best XI
+          </Link>
+          <Link className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-slate-200" href="/seasons">
+            Seasons
           </Link>
           <Button className="bg-emerald-700 hover:bg-emerald-600" onClick={exportPlayerCsv}>
             Export Player CSV

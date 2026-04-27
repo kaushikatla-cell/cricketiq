@@ -1,16 +1,22 @@
 "use client";
 
+import Link from "next/link";
 import AppShell from "@/components/AppShell";
 import { Card, EmptyState } from "@/components/ui";
 import { generateBestXI, getRoleRecommendation } from "@/lib/analytics";
 import { useCricketIQData } from "@/lib/useCricketIQ";
 
 export default function BestXIPage() {
-  const { playerAnalytics, isReady } = useCricketIQData();
+  const { playerAnalytics, isReady, storageError, clearStorageError } = useCricketIQData();
   if (!isReady) return null;
   if (!playerAnalytics.length) {
     return (
-      <AppShell title="Best XI Generator" subtitle="Automated team composition from player impact profiles.">
+      <AppShell
+        title="Best XI Generator"
+        subtitle="Automated team composition from player impact profiles."
+        storageError={storageError}
+        onDismissStorageError={clearStorageError}
+      >
         <EmptyState title="No players available" description="Add player and match data to generate your starting XI." />
       </AppShell>
     );
@@ -18,7 +24,12 @@ export default function BestXIPage() {
 
   const bestXI = generateBestXI(playerAnalytics);
   return (
-    <AppShell title="Best XI Generator" subtitle="Automated team composition from player impact profiles.">
+    <AppShell
+      title="Best XI Generator"
+      subtitle="Automated team composition from player impact profiles."
+      storageError={storageError}
+      onDismissStorageError={clearStorageError}
+    >
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <h2 className="text-lg font-semibold">{bestXI.isBestAvailable ? "Best Available XI" : "Recommended Best XI"}</h2>
@@ -27,7 +38,12 @@ export default function BestXIPage() {
               const rec = getRoleRecommendation(player);
               return (
                 <div key={player.id} className="rounded-xl border border-slate-200 p-3">
-                  <p className="font-semibold">{index + 1}. {player.name}</p>
+                  <p className="font-semibold">
+                    {index + 1}.{" "}
+                    <Link className="text-blue-700 hover:underline" href={`/players/${player.id}`}>
+                      {player.name}
+                    </Link>
+                  </p>
                   <p className="text-sm text-slate-600">{rec.role}</p>
                   <p className="text-sm text-slate-500">Score {player.overallScore.toFixed(1)}</p>
                 </div>
