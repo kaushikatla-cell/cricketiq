@@ -8,6 +8,7 @@ Thank you for helping improve CricketIQ. This project is intentionally **JavaScr
 2. Install dependencies: `npm install`
 3. Run checks before opening a PR:
    - `npm run lint`
+   - `npm run test`
    - `npm run build`
 4. Open a pull request with a clear description of the change and any user-facing impact.
 
