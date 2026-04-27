@@ -1,0 +1,46 @@
+{
+  "name": "cricketiq",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Moneyball for grassroots cricket — full-stack analytics for amateur cricket (Next.js, localStorage, Recharts).",
+  "keywords": [
+    "cricket",
+    "analytics",
+    "nextjs",
+    "grassroots",
+    "sports",
+    "recharts",
+    "vercel"
+  ],
+  "author": "Kaushik Atla",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaushikatla-cell/cricketiq.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kaushikatla-cell/cricketiq/issues"
+  },
+  "homepage": "https://github.com/kaushikatla-cell/cricketiq#readme",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "recharts": "^3.8.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4"
+  }
+}
